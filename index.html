@@ -217,7 +217,14 @@
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
 
-      if (username === 'test' && password === 'password') {
+      // Retrieve saved user data from localStorage
+      const savedUsername = localStorage.getItem('username');
+      const savedPassword = localStorage.getItem('password');
+
+      console.log("Logging in with:", username, password); // Debugging
+
+      if (username === savedUsername && password === savedPassword) {
+        console.log("Login successful!"); // Debugging
         localStorage.setItem('userLoggedIn', true);
         showCompilerContent();
       } else {
@@ -232,8 +239,12 @@
 
       // Basic validation (you would implement real backend validation in a production app)
       if (username && password) {
+        // Save user data to localStorage
+        localStorage.setItem('username', username);
+        localStorage.setItem('password', password);
+
         alert('Signup successful!');
-        toggleAuthForm();
+        toggleAuthForm(); // Switch to Login form after signup
       } else {
         alert('Please fill all fields');
       }
@@ -258,6 +269,9 @@
       document.getElementById('auth-form').style.display = 'none';
       document.getElementById('signup-form').style.display = 'none';
       document.getElementById('compiler-content').style.display = 'block';
+      
+      // Ensure animations and content are shown after login
+      document.querySelector('.container').style.opacity = 1;
     }
 
     // Run the code in the editors
