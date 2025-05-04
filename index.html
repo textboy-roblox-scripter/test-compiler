@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shadow Scripting Code Compiler</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #1e1e1e;
+      color: #fff;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Container to center everything */
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      flex-direction: column;
+    }
+
+    /* Header text styles */
+    .header {
+      font-size: 2.5rem;
+      color: #bb00ff;
+      text-shadow: 0 0 15px #bb00ff, 0 0 25px #7700ff;
+      margin-bottom: 20px;
+    }
+
+    .subheader {
+      font-size: 1.2rem;
+      color: #fff;
+      margin-bottom: 40px;
+    }
+
+    /* Code editor section */
+    .editor-section {
+      display: flex;
+      justify-content: space-between;
+      width: 80%;
+      height: 60%;
+    }
+
+    /* Individual code editors */
+    .editor {
+      width: 30%;
+      background-color: #333;
+      border-radius: 10px;
+      padding: 15px;
+      overflow-y: auto;
+      max-height: 300px;
+    }
+
+    /* Prism.js syntax highlight */
+    pre {
+      background-color: #1e1e1e;
+      color: #f5f5f5;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+      font-family: Consolas, monospace;
+      width: 100%;
+    }
+
+    .language-html {
+      color: #ff6347;
+    }
+
+    .language-css {
+      color: #2e8b57;
+    }
+
+    .language-javascript {
+      color: #1e90ff;
+    }
+
+    /* Button and output container */
+    .run-btn {
+      margin-top: 20px;
+      padding: 12px 24px;
+      background-color: #bb00ff;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 0 10px #bb00ff;
+      transition: 0.3s;
+    }
+
+    .run-btn:hover {
+      background-color: #aa00ff;
+    }
+
+    iframe {
+      width: 80%;
+      height: 300px;
+      border: none;
+      margin-top: 30px;
+      border-radius: 10px;
+    }
+
+  </style>
+  <!-- Include Prism.js for syntax highlighting -->
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/themes/prism-okaidia.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/components/prism-html.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/components/prism-css.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/components/prism-javascript.min.js"></script>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">Shadow Scripting Code Compiler</div>
+    <div class="subheader">Write HTML, CSS, and JavaScript. Run it and see the result instantly.</div>
+    
+    <div class="editor-section">
+      <!-- HTML Editor -->
+      <div class="editor">
+        <h3 style="color: #ff6347;">HTML</h3>
+        <pre><code class="language-html" id="html-code"></code></pre>
+      </div>
+
+      <!-- CSS Editor -->
+      <div class="editor">
+        <h3 style="color: #2e8b57;">CSS</h3>
+        <pre><code class="language-css" id="css-code"></code></pre>
+      </div>
+
+      <!-- JavaScript Editor -->
+      <div class="editor">
+        <h3 style="color: #1e90ff;">JavaScript</h3>
+        <pre><code class="language-javascript" id="js-code"></code></pre>
+      </div>
+    </div>
+
+    <button class="run-btn" onclick="runCode()">Run</button>
+
+    <!-- Output -->
+    <iframe id="output"></iframe>
+  </div>
+
+  <script>
+    // Code to run the HTML, CSS, and JS and display output
+    function runCode() {
+      const html = document.getElementById('html-code').textContent;
+      const css = document.getElementById('css-code').textContent;
+      const js = document.getElementById('js-code').textContent;
+
+      const iframe = document.getElementById('output');
+      const iframeDocument = iframe.contentWindow.document;
+
+      iframeDocument.open();
+      iframeDocument.write(`
+        <html>
+          <head><style>${css}</style></head>
+          <body>${html}<script>${js}<\/script></body>
+        </html>
+      `);
+      iframeDocument.close();
+    }
+
+    // Function to highlight code with Prism.js
+    function updateSyntaxHighlighting() {
+      Prism.highlightAll();
+    }
+
+    // Event listeners to update highlighting as user types
+    document.getElementById('html-code').addEventListener('input', updateSyntaxHighlighting);
+    document.getElementById('css-code').addEventListener('input', updateSyntaxHighlighting);
+    document.getElementById('js-code').addEventListener('input', updateSyntaxHighlighting);
+  </script>
+</body>
+</html>
